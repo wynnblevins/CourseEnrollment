@@ -7,18 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 public class CourseController {
     @Autowired
     private CourseService courseService;
-
-    @GetMapping("/api/courses")
-    public List<Course> getCourses() {
-        return courseService.getAllCourses();
-    }
-
+    
     @GetMapping("/api/courses/{courseId}")
     public Course getCourse(@PathVariable Long courseId) throws NotFoundException {
         return courseService.getCourse(courseId);

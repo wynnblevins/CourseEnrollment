@@ -2,10 +2,13 @@ package com.wynnblevins.CourseEnrollment.services;
 
 import com.wynnblevins.CourseEnrollment.exceptions.NotFoundException;
 import com.wynnblevins.CourseEnrollment.models.Course;
+import com.wynnblevins.CourseEnrollment.models.Teacher;
 import com.wynnblevins.CourseEnrollment.repositories.CourseRepository;
+import com.wynnblevins.CourseEnrollment.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -14,6 +17,12 @@ import java.util.Set;
 public class CourseService {
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private TeacherRepository teacherRepository;
+
+    @Autowired
+    private CourseTeacherService courseTeacherService;
 
     public Course getCourse(Long courseId) throws NotFoundException {
         Optional<Course> course = courseRepository.findById(courseId);
