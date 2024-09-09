@@ -28,6 +28,10 @@ public class CourseTeacherService {
         return (List<CourseTeacher>) courseTeacherRepository.findAll();
     }
 
+    public List<CourseTeacher> getAllCourseTeachersByTeacherId(Long teacherId) {
+        return courseTeacherRepository.findCourseTeacherByTeacherId(teacherId);
+    }
+
     public CourseTeacher getCourseTeacherById(Long id) throws NotFoundException {
         Optional<CourseTeacher> maybeCourseTeacher = courseTeacherRepository.findById(id);
         if (!maybeCourseTeacher.isPresent()) {
