@@ -2,6 +2,7 @@ package com.wynnblevins.CourseEnrollment.controllers;
 
 import com.wynnblevins.CourseEnrollment.exceptions.NotFoundException;
 import com.wynnblevins.CourseEnrollment.models.Enrollment;
+import com.wynnblevins.CourseEnrollment.models.Teacher;
 import com.wynnblevins.CourseEnrollment.services.EnrollmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class EnrollmentController {
     @Autowired
     private EnrollmentService enrollmentService;
@@ -23,12 +25,11 @@ public class EnrollmentController {
         return enrollmentService.getEnrollmentById(enrollmentId);
     }
 
-    @PostMapping("/api/enrollments/students/{studentId}/courses/{courseId}")
+    @PostMapping("/api/enrollments")
     public Enrollment createEnrollment(
-            @PathVariable Long studentId,
-            @PathVariable Long courseId
+    		@RequestBody Enrollment enrollment
     ) throws NotFoundException {
-        return enrollmentService.createEnrollment(courseId, studentId);
+        return enrollmentService.createEnrollment(enrollment);
     }
 
     @DeleteMapping("/api/enrollments/{id}")

@@ -39,21 +39,17 @@ public class EnrollmentService {
         return enrollment.get();
     }
 
-    public Enrollment createEnrollment(Long studentId, Long courseId) throws NotFoundException {
-        Optional<Course> maybeCourse = courseRepository.findById(courseId);
-        Optional<Student> maybeStudent = studentRepository.findById(studentId);
+    public Enrollment createEnrollment(Enrollment enrollment) throws NotFoundException {
+        Optional<Course> maybeCourse = courseRepository.findById(enrollment.getCourse().getId());
+        Optional<Student> maybeStudent = studentRepository.findById(enrollment.getStudent().getId());
 
         if (!maybeCourse.isPresent()) {
-            throw new NotFoundException("Course for ID " + courseId + " not found");
+            throw new NotFoundException("Course for ID not found");
         }
 
         if (!maybeStudent.isPresent()) {
-            throw new NotFoundException("Student for ID " + studentId + " not found");
+            throw new NotFoundException("Student for ID not found");
         }
-
-        Enrollment enrollment = new Enrollment();
-        enrollment.setStudent(maybeStudent.get());
-        enrollment.setCourse(maybeCourse.get());
 
         return enrollmentRepository.save(enrollment);
     }

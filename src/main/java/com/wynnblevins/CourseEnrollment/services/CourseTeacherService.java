@@ -9,11 +9,13 @@ import com.wynnblevins.CourseEnrollment.repositories.CourseTeacherRepository;
 import com.wynnblevins.CourseEnrollment.repositories.TeacherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CourseTeacherService {
     @Autowired
     private CourseRepository courseRepository;
@@ -31,6 +33,10 @@ public class CourseTeacherService {
     public List<CourseTeacher> getAllCourseTeachersByTeacherId(Long teacherId) {
         return courseTeacherRepository.findCourseTeacherByTeacherId(teacherId);
     }
+    
+    public void deleteAllByTeacherId(Long teacherId) {
+    	courseTeacherRepository.deleteAllByTeacherId(teacherId);
+    }
 
     public CourseTeacher getCourseTeacherById(Long id) throws NotFoundException {
         Optional<CourseTeacher> maybeCourseTeacher = courseTeacherRepository.findById(id);
@@ -40,8 +46,10 @@ public class CourseTeacherService {
         return maybeCourseTeacher.get();
     }
 
-    public CourseTeacher createCourseTeacher(Long courseId, Long teacherId) throws NotFoundException {
-        Optional<Course> maybeCourse = courseRepository.findById(courseId);
+    public CourseTeacher createCourseTeacher(CourseTeacher courseTeacher) throws NotFoundException {
+        Long courseId = courseTeacher.getCourse().getId();
+        Long teacherId = courseTeacher.getTeacher().getId();
+    	Optional<Course> maybeCourse = courseRepository.findById(courseId);
         Optional<Teacher> maybeTeacher = teacherRepository.findById(teacherId);
 
         if (!maybeCourse.isPresent()) {
@@ -51,10 +59,6 @@ public class CourseTeacherService {
         if (!maybeTeacher.isPresent()) {
             throw new NotFoundException("Teacher with ID " + teacherId + " Not Found");
         }
-
-        CourseTeacher courseTeacher = new CourseTeacher();
-        courseTeacher.setCourse(maybeCourse.get());
-        courseTeacher.setTeacher(maybeTeacher.get());
 
         CourseTeacher newCourseTeacher = courseTeacherRepository.save(courseTeacher);
 

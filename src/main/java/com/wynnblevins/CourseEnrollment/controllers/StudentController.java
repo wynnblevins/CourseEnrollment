@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 @RestController
+@CrossOrigin
 public class StudentController {
     @Autowired
     private StudentService studentService;
