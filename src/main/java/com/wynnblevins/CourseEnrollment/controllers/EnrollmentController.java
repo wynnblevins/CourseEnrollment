@@ -21,10 +21,17 @@ public class EnrollmentController {
     }
 
     @GetMapping("/api/enrollments/{enrollmentId}")
-    public Enrollment getEnrollment(Long enrollmentId) throws NotFoundException {
+    public Enrollment getEnrollment(@PathVariable Long enrollmentId) 
+    		throws NotFoundException {
         return enrollmentService.getEnrollmentById(enrollmentId);
     }
 
+    @GetMapping("/api/enrollments/students/{studentId}")
+    public List<Enrollment> getEnrollmentsForStudent(@PathVariable Long studentId) 
+    		throws NotFoundException {
+    	return enrollmentService.getEnrollmentsForStudent(studentId);
+    }
+    
     @PostMapping("/api/enrollments")
     public Enrollment createEnrollment(
     		@RequestBody Enrollment enrollment
@@ -33,7 +40,14 @@ public class EnrollmentController {
     }
 
     @DeleteMapping("/api/enrollments/{id}")
-    public void deleteEnrollment(@PathVariable Long id) throws NotFoundException {
+    public void deleteEnrollment(@PathVariable Long id) 
+    		throws NotFoundException {
         enrollmentService.deleteEnrollment(id);
+    }
+    
+    @DeleteMapping("/api/enrollments/students/{id}")
+    public void deleteEnrollmentsForStudent(@PathVariable Long id) 
+    		throws NotFoundException {
+    	enrollmentService.deleteEnrollmentsForStudent(id);
     }
 }

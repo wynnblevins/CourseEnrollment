@@ -9,6 +9,7 @@ import com.wynnblevins.CourseEnrollment.repositories.EnrollmentRepository;
 import com.wynnblevins.CourseEnrollment.repositories.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -17,6 +18,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Service
+@Transactional
 public class EnrollmentService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
@@ -54,11 +56,35 @@ public class EnrollmentService {
         return enrollmentRepository.save(enrollment);
     }
 
-    public void deleteEnrollment(@PathVariable Long id) throws NotFoundException {
+    public void deleteEnrollment(Long id) throws NotFoundException {
         Optional<Enrollment> enrollmentOptional = enrollmentRepository.findById(id);
         if (!enrollmentOptional.isPresent()) {
             throw new NotFoundException("Employee with ID " + id + " not found");
         }
         enrollmentRepository.deleteById(id);
+    }
+    
+    public void deleteEnrollmentsForStudent(Long studentId) throws NotFoundException {
+    	Optional<Student> maybeStudent = studentRepository.findById(studentId);
+    	
+    	if (!maybeStudent.isPresent()) {
+    		String studentIdStr = Long.toString(studentId);
+    		String exceptionMsg = "Student with ID ".concat(studentIdStr).concat(" not found");
+    		throw new NotFoundException(exceptionMsg);
+    	}
+    	
+    	enrollmentRepository.deleteAllByStudentId(studentId);
+    }
+    
+    public List<Enrollment> getEnrollmentsForStudent(Long studentId) throws NotFoundException {
+    	Optional<Student> maybeStudent = studentRepository.findById(studentId);
+    	
+    	if (!maybeStudent.isPresent()) {
+    		String studentIdStr = Long.toString(studentId);
+    		String exceptionMsg = "Student with ID ".concat(studentIdStr).concat(" not found");
+    		throw new NotFoundException(exceptionMsg);
+    	}
+    	
+    	return enrollmentRepository.findByStudentId(studentId);
     }
 }
