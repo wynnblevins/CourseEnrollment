@@ -22,7 +22,6 @@ public class CourseTeacherController {
 
     @DeleteMapping("/api/courseTeachers/teachers/{teacherId}")
     public void deleteCourseTeacherByTeacherId(@PathVariable Long teacherId) {
-    	System.out.println("within endpoint");
     	courseTeacherService.deleteAllByTeacherId(teacherId);
     }
     
