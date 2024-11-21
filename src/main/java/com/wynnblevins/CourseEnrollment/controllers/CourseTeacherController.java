@@ -25,6 +25,11 @@ public class CourseTeacherController {
     	courseTeacherService.deleteAllByTeacherId(teacherId);
     }
     
+    @GetMapping("/api/courseTeachers/teachers/{teacherId}")
+    public List<CourseTeacher> getCourseTeachersByTeacherId(@PathVariable Long teacherId) {
+    	return courseTeacherService.getAllCourseTeachersByTeacherId(teacherId);
+    }
+    
     @GetMapping("/api/courseTeachers")
     public List<CourseTeacher> getCourseTeachers() {
         return courseTeacherService.getAll();
