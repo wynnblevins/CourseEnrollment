@@ -11,5 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface EnrollmentRepository extends CrudRepository<Enrollment, Long> {
     Enrollment findByStudentIdAndCourseId(long studentId, long courseId);
     void deleteAllByStudentId(Long studentId);
+    void deleteAllByCourseId(Long courseId);
     List<Enrollment> findByStudentId(long studentId);
+    List<Enrollment> findByCourseId(long courseId);
 }

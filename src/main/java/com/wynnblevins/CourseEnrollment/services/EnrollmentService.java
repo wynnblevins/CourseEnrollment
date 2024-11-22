@@ -87,4 +87,28 @@ public class EnrollmentService {
     	
     	return enrollmentRepository.findByStudentId(studentId);
     }
+    
+    public List<Enrollment> getEnrollmentsForCourse(Long courseId) throws NotFoundException {
+    	Optional<Course> maybeCourse = courseRepository.findById(courseId);
+    	
+    	if (!maybeCourse.isPresent()) {
+    		String courseIdStr = Long.toString(courseId);
+    		String exceptionMsg = "Course with ID ".concat(courseIdStr).concat(" not found");
+    		throw new NotFoundException(exceptionMsg);
+    	}
+    	
+    	return enrollmentRepository.findByCourseId(courseId);
+    }
+    
+    public void deleteEnrollmentsForCourse(Long courseId) throws NotFoundException {
+    	Optional<Course> maybeCourse = courseRepository.findById(courseId);
+    	
+    	if (!maybeCourse.isPresent()) {
+    		String courseIdStr = Long.toString(courseId);
+    		String exceptionMsg = "Course with ID ".concat(courseIdStr).concat(" not found");
+    		throw new NotFoundException(exceptionMsg);
+    	}
+    	
+    	enrollmentRepository.deleteAllByCourseId(courseId);
+    }
 }

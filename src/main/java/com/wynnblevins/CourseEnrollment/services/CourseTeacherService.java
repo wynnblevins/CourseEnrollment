@@ -53,11 +53,11 @@ public class CourseTeacherService {
         Optional<Teacher> maybeTeacher = teacherRepository.findById(teacherId);
 
         if (!maybeCourse.isPresent()) {
-            throw new NotFoundException("Course with ID " + courseId + " Not Found");
+            throw new NotFoundException("Course with ID " + courseId + " fot found");
         }
 
         if (!maybeTeacher.isPresent()) {
-            throw new NotFoundException("Teacher with ID " + teacherId + " Not Found");
+            throw new NotFoundException("Teacher with ID " + teacherId + " not found");
         }
 
         CourseTeacher newCourseTeacher = courseTeacherRepository.save(courseTeacher);
@@ -67,9 +67,25 @@ public class CourseTeacherService {
 
     public void deleteCourseTeacherById(Long id) throws NotFoundException {
         Optional<CourseTeacher> maybeCourseTeacher = courseTeacherRepository.findById(id);
+        
         if (!maybeCourseTeacher.isPresent()) {
-            throw new NotFoundException("Course Teacher with ID " + id + " Not Found");
+        	String idStr = Long.toString(id);
+        	String notFoundMsg = "Course Teacher with ID ".concat(idStr).concat(" not found");
+            throw new NotFoundException(notFoundMsg);
         }
+        
         courseTeacherRepository.deleteById(id);
+    }
+    
+    public void deleteAllByCourseId(Long id) throws NotFoundException {
+    	Optional<Course> maybeCourse = courseRepository.findById(id);
+    	
+    	if (!maybeCourse.isPresent()) {
+    		String courseIdStr = Long.toString(id);
+    		String notFoundMsg = "Course with ID ".concat(courseIdStr).concat(" not found");
+    		throw new NotFoundException(notFoundMsg);
+    	}
+    	
+    	courseTeacherRepository.deleteAllByCourseId(id);
     }
 }

@@ -26,6 +26,12 @@ public class EnrollmentController {
         return enrollmentService.getEnrollmentById(enrollmentId);
     }
 
+    @GetMapping("/api/enrollments/courses/{courseId}")
+    public List<Enrollment> getEnrollmentsForCourse(@PathVariable Long courseId) 
+    	throws NotFoundException {
+    	return enrollmentService.getEnrollmentsForCourse(courseId);
+    }
+    
     @GetMapping("/api/enrollments/students/{studentId}")
     public List<Enrollment> getEnrollmentsForStudent(@PathVariable Long studentId) 
     		throws NotFoundException {
@@ -49,5 +55,11 @@ public class EnrollmentController {
     public void deleteEnrollmentsForStudent(@PathVariable Long id) 
     		throws NotFoundException {
     	enrollmentService.deleteEnrollmentsForStudent(id);
+    }
+    
+    @DeleteMapping("/api/enrollments/courses/{courseId}")
+    public void deleteEnrollmentsForCourse(@PathVariable Long courseId) 
+    		throws NotFoundException {
+    	enrollmentService.deleteEnrollmentsForCourse(courseId);
     }
 }

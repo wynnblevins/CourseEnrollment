@@ -10,4 +10,5 @@ import java.util.List;
 public interface CourseTeacherRepository extends CrudRepository<CourseTeacher, Long> {
     List<CourseTeacher> findCourseTeacherByTeacherId(Long teacherId);
     void deleteAllByTeacherId(Long teacherId);
+    void deleteAllByCourseId(Long courseId);
 }

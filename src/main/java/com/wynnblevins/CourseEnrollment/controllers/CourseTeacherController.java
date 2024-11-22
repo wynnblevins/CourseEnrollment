@@ -30,6 +30,18 @@ public class CourseTeacherController {
     	return courseTeacherService.getAllCourseTeachersByTeacherId(teacherId);
     }
     
+    @DeleteMapping("/api/courseTeachers/courses/{courseId}")
+    public void deleteCourseTeachersByCourseId(@PathVariable Long courseId) 
+    		throws NotFoundException {
+    	courseTeacherService.deleteAllByCourseId(courseId);
+    }
+    
+    @GetMapping("/api/courseTeachers/courses/{courseId}")
+    public void deleteCourseTeachersForCourseId(@PathVariable Long courseId) 
+    		throws NotFoundException {
+    	courseTeacherService.deleteAllByCourseId(courseId);
+    }
+    
     @GetMapping("/api/courseTeachers")
     public List<CourseTeacher> getCourseTeachers() {
         return courseTeacherService.getAll();
